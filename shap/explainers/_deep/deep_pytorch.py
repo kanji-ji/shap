@@ -117,9 +117,10 @@ class PyTorchDeep(Explainer):
             del self.layer.target_input
             return grads, [i.detach().cpu().numpy() for i in interim_inputs]
         else:
+            print(len(X))
             for idx, x in enumerate(X):
                 grad = torch.autograd.grad(selected, x,
-                                           retain_graph=True if idx + 1 < len(X) else None,
+                                           retain_graph=False if idx + 1 < len(X) else None,
                                            allow_unused=True)[0]
                 if grad is not None:
                     grad = grad.cpu().numpy()
